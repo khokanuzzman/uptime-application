@@ -40,17 +40,6 @@ handler.handleReqRes = (req, res) => {
     };
 
     const chosenHandler = routes[trimmedPath] ? routes[trimmedPath] : notFoundHanlder;
-    chosenHandler(handlerProperties, (statusCode, payload) => {
-        // eslint-disable-next-line no-param-reassign
-        statusCode = typeof statusCode === 'number' ? statusCode : 500;
-        // eslint-disable-next-line no-param-reassign
-        payload = typeof payload === 'object' ? payload : {};
-
-        const payloadString = JSON.stringify(payload);
-
-        res.writeHead(statusCode);
-        res.end(payloadString);
-    });
 
     req.on('data', (buffer) => {
         realData += decoder.write(buffer);
@@ -63,6 +52,18 @@ handler.handleReqRes = (req, res) => {
         // console.log('query data', queryStringObject);
         // console.log('request method: ', method);
         // console.log('trimmed path: ', trimmedPath);
+        chosenHandler(handlerProperties, (statusCode, payload) => {
+            // eslint-disable-next-line no-param-reassign
+            statusCode = typeof statusCode === 'number' ? statusCode : 500;
+            // eslint-disable-next-line no-param-reassign
+            payload = typeof payload === 'object' ? payload : {};
+    
+            const payloadString = JSON.stringify(payload);
+
+            res.setHeader('Content-Type','Application/json');
+            res.writeHead(statusCode);
+            res.end(payloadString);
+        });
         res.end();
     });
 };
