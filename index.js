@@ -30,16 +30,16 @@ const app = {};
 //     console.log('error and data: ',err);
 // })
 
-data.delete('test','newFile',(err)=>{
+data.delete('test', 'newFile', (err) => {
     console.log(err);
 });
 
 app.createServer = () => {
     const server = http.createServer(app.handleReqRes);
-    console.log('port: ',environement.port);
+    console.log('port: ', environement.port);
     server.listen(environement.port, () => {
-        console.log(typeof(process.env))
-        console.log(`the environment variable is ${process.env.NODE_ENV}`)
+        console.log(typeof process.env);
+        console.log(`the environment variable is ${process.env.NODE_ENV}`);
         console.log(`port litesing...${environement.port}`);
     });
 };
